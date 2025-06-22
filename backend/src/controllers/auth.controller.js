@@ -6,13 +6,23 @@ export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
 
   try {
+    if (
+      !email ||
+      !password ||
+      !fullName ||
+      typeof password !== "string" ||
+      typeof email !== "string" ||
+      typeof fullName !== "string"
+    )
+      return res.status(400).json({ message: "Invalid request data." });
+
     if (password.length < 6) {
       return res
         .status(400)
         .json({ message: "Password must be atleast 6 characters" });
     }
     const user = await User.findOne({ email });
-    if (!user) {
+    if (user) {
       return res
         .status(400)
         .json({ message: "User with this email already exists." });
