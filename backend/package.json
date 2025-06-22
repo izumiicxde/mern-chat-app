@@ -6,8 +6,6 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
-    "@types/mongoose": "^5.11.97",
-    "@types/node": "^24.0.3",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
     "cookie-parser": "^1.4.7",

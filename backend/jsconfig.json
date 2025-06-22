@@ -1,9 +1,11 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6"
+        "module": "ESNext",
+        "target": "ES6",
+        // "checkJs": true,
+        "moduleResolution": "node"
     },
     "include": [
-        "src"
+        "src/**/*"
     ]
 }

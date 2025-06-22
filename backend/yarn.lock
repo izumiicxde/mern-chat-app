@@ -229,16 +229,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mongoose@npm:^5.11.97":
-  version: 5.11.97
-  resolution: "@types/mongoose@npm:5.11.97"
-  dependencies:
-    mongoose: "npm:*"
-  checksum: 10c0/333e692a39734948db700c76f25c7b088f46cb88ba940b80467313acf29752823ff9ed2870045c34e00559c38a4a3b5136ae6634da6dbe56c160a16a50e1dea0
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:^24.0.3":
+"@types/node@npm:*, @types/node@npm:>=10.0.0":
   version: 24.0.3
   resolution: "@types/node@npm:24.0.3"
   dependencies:
@@ -379,8 +370,6 @@ __metadata:
   resolution: "backend@workspace:."
   dependencies:
     "@eslint/js": "npm:^9.29.0"
-    "@types/mongoose": "npm:^5.11.97"
-    "@types/node": "npm:^24.0.3"
     bcryptjs: "npm:^3.0.2"
     cloudinary: "npm:^2.7.0"
     cookie-parser: "npm:^1.4.7"
@@ -1882,7 +1871,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:*, mongoose@npm:^8.16.0":
+"mongoose@npm:^8.16.0":
   version: 8.16.0
   resolution: "mongoose@npm:8.16.0"
   dependencies:
