@@ -1,3 +1,4 @@
+import cloudinary from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
@@ -65,7 +66,7 @@ export const login = async (req, res) => {
     )
       return res.status(400).json({ message: "Invalid request data." });
 
-    const user = await user.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -75,6 +76,7 @@ export const login = async (req, res) => {
     generateToken(user._id, res);
 
     return res.status(200).json({
+      message: "Login Successfull",
       _id: user._id,
       fullName: user.fullName,
       profilePic: user.profilePic,
@@ -91,5 +93,31 @@ export const logout = (req, res) => {
     res.status(200).json({ message: "Logout successfull" });
   } catch (error) {
     console.log("Error logging out in logout controller: ", error);
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    if (!profilePic)
+      return res
+        .status(400)
+        .json({ message: "Invalid data - image is required." });
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { profilePic: uploadResponse.secure_url },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({
+        message: "user profile updated successfully",
+        user: updatedUser,
+      });
+  } catch (error) {
+    console.log("Error uploading and updating the profile pic: ", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
