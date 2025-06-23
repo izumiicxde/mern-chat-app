@@ -13,3 +13,7 @@ export type SignupFormData = {
   password: string;
   confirmPassword: string;
 };
+export type LoginFormData = {
+  email: string;
+  password: string;
+};
