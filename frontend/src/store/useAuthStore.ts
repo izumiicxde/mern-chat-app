@@ -10,6 +10,8 @@ type AuthStore = {
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
+  onlineUsers: any[];
+
   checkAuth: () => void;
   updateProfile: ({
     profilePic,
@@ -27,6 +29,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  onlineUsers: [],
 
   checkAuth: async () => {
     try {
