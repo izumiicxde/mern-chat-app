@@ -1,9 +1,9 @@
 import { useState, type ChangeEvent } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Camera, Mail, User } from "lucide-react";
+import { Camera, LogOut, Mail, User } from "lucide-react";
 
 const Profile = () => {
-  const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
+  const { authUser, isUpdatingProfile, updateProfile, logout } = useAuthStore();
   const [selectedImage, setSelectedImage] = useState<
     ArrayBuffer | string | null
   >(null);
@@ -23,7 +23,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="h-screen pt-20">
+    <div className="min-h-screen pt-20">
       <div className="max-w-2xl mx-auto p-4 py-8">
         <div className="bg-base-300 rounded-xl p-6 space-y-8">
           <div className="text-center">
@@ -95,7 +95,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="mt-6 bg-base-300 rounded-xl p-6">
+          <div className="mt-6 bg-base-300 rounded-xl p-6 relative">
             <h2 className="text-lg font-medium  mb-4">Account Information</h2>
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between py-2 border-b border-zinc-700">
@@ -106,6 +106,15 @@ const Profile = () => {
                 <span>Account Status</span>
                 <span className="text-green-500">Active</span>
               </div>
+            </div>
+            <div className="w-full  pt-10">
+              <button
+                className="flex gap-2 items-center justify-center btn btn-error btn-sm absolute right-1"
+                onClick={logout}
+              >
+                <LogOut className="size-3" />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
             </div>
           </div>
         </div>
