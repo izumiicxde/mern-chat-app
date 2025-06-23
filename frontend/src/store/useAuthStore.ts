@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import type { SignupFormData, AuthUser, LoginFormData } from "../lib/types";
 import toast from "react-hot-toast";
-import { AxiosError } from "axios";
+import { Axios, AxiosError } from "axios";
 
 type AuthStore = {
   authUser: AuthUser | null;
@@ -11,6 +11,11 @@ type AuthStore = {
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
   checkAuth: () => void;
+  updateProfile: ({
+    profilePic,
+  }: {
+    profilePic: string | ArrayBuffer | null;
+  }) => void;
   signup: (data: SignupFormData) => void;
   login: (data: LoginFormData) => void;
   logout: () => void;
@@ -64,6 +69,22 @@ export const useAuthStore = create<AuthStore>((set) => ({
       );
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+  updateProfile: async (data) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const res = await axiosInstance.put("/auth/update-profile", data);
+      set({ authUser: res.data });
+      toast.success("Profile updated successfully.");
+    } catch (error) {
+      toast.error(
+        error instanceof AxiosError
+          ? error.response?.data.message
+          : "Failed to update profile picture."
+      );
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
   logout: async () => {
