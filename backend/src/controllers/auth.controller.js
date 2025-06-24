@@ -46,6 +46,7 @@ export const signup = async (req, res) => {
         message: "New User Created",
         _id: newUser._id,
         fullName: newUser.fullName,
+        email: user.email,
         profilePic: newUser.profilePic,
       });
     } else res.status(400).json({ message: "Invalid user data" });
@@ -79,6 +80,7 @@ export const login = async (req, res) => {
       message: "Login Successfull",
       _id: user._id,
       fullName: user.fullName,
+      email: user.email,
       profilePic: user.profilePic,
     });
   } catch (error) {
