@@ -15,19 +15,19 @@ app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: process.env.MODE === "development" && "http://localhost:5173",
-    credentials: true,
-  }),
+    cors({
+        origin: process.env.MODE === "development" && "http://localhost:5173",
+        credentials: true,
+    }),
 );
 
 app.get("/", (req, res) => {
-  return res.status(200).json({ message: "site is up" });
+    return res.status(200).json({ message: "site is up" });
 });
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 server.listen(PORT, () => {
-  console.log(`server is running at port: ${PORT}`);
-  connectDB();
+    console.log(`server is running at port: ${PORT}`);
+    connectDB();
 });
