@@ -1,27 +1,31 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
-import { AxiosError } from "axios";
+import { Axios, AxiosError } from "axios";
 import toast from "react-hot-toast";
-import type { AuthUser } from "../lib/types";
+import type { AuthUser, Message, MessageData } from "../lib/types";
 
 type ChatStore = {
-  messages: never[];
+  messages: Message[];
   users: AuthUser[];
   selectedUser: null | AuthUser;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
+  isMessageSending: boolean;
 
   getUsers: () => void;
   getMessages: (userId: string) => void;
-  setSelectedUser: (selectedUser: AuthUser) => void;
+
+  setSelectedUser: (selectedUser: AuthUser | null) => void;
+  sendMessage: (data: MessageData) => void;
 };
 
-export const useChatStore = create<ChatStore>((set) => ({
+export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
+  isMessageSending: false,
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -32,7 +36,7 @@ export const useChatStore = create<ChatStore>((set) => ({
       toast.error(
         error instanceof AxiosError
           ? error.response?.data.message
-          : "Internet Connection Error"
+          : "Internet Connection Error",
       );
     } finally {
       set({ isUsersLoading: false });
@@ -47,13 +51,33 @@ export const useChatStore = create<ChatStore>((set) => ({
       toast.error(
         error instanceof AxiosError
           ? error.response?.data.message
-          : "Internet Connection Error"
+          : "Internet Connection Error",
       );
     } finally {
       set({ isMessagesLoading: false });
     }
   },
+
   setSelectedUser: async (selectedUser) => {
     set({ selectedUser });
+  },
+  sendMessage: async (message) => {
+    const { selectedUser, messages } = get();
+    set({ isMessageSending: true });
+    try {
+      const res = await axiosInstance.post(
+        `/messages/send/${selectedUser?._id}`,
+        message,
+      );
+      set({ messages: [...messages, res.data] });
+    } catch (error) {
+      toast.error(
+        error instanceof AxiosError
+          ? error.response?.data.message
+          : "Failed to load the messages",
+      );
+    } finally {
+      set({ isMessageSending: false });
+    }
   },
 }));

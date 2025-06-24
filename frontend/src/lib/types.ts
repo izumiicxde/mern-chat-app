@@ -17,3 +17,17 @@ export type LoginFormData = {
   email: string;
   password: string;
 };
+
+export type MessageData = {
+  text: string;
+  image: ArrayBuffer | string | null;
+};
+export type Message = {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  text: string;
+  image?: string;
+  createdAt: string;
+  updatedAt: string;
+};
