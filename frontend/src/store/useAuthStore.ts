@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import type { SignupFormData, AuthUser, LoginFormData } from "../lib/types";
 import toast from "react-hot-toast";
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import type { Socket } from "socket.io-client";
 import { io } from "socket.io-client";
 import { envs } from "../lib/envs";

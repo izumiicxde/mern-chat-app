@@ -8,7 +8,8 @@ import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
-  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers, disconnectSocket } =
+    useAuthStore();
   const { theme } = useThemeStore();
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const App = () => {
     );
 
   return (
-    <div data-theme={theme}>
+    <div data-theme={theme} onBlur={() => disconnectSocket()}>
       <Navbar />
       <Routes>
         <Route
