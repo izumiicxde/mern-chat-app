@@ -8,14 +8,29 @@ import MessageSkeleton from "./skeletons/message";
 import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
-  const { messages, getMessages, isMessagesLoading, selectedUser } =
-    useChatStore();
+  const {
+    messages,
+    isMessagesLoading,
+    selectedUser,
+
+    getMessages,
+    subscribeToMessages,
+    unSubscribeFromMessages,
+  } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeof selectedUser?._id === "string") getMessages(selectedUser._id);
-  }, [selectedUser?._id, getMessages]);
+    subscribeToMessages();
+
+    return () => unSubscribeFromMessages();
+  }, [
+    selectedUser?._id,
+    getMessages,
+    subscribeToMessages,
+    unSubscribeFromMessages,
+  ]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -47,6 +62,7 @@ const ChatContainer = () => {
             <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
                 <img
+                  className="select-none"
                   src={
                     message.senderId === authUser?._id
                       ? authUser?.profilePic || "/avatar.png"
@@ -66,7 +82,7 @@ const ChatContainer = () => {
                 <img
                   src={message.image}
                   alt="Attachment"
-                  className="sm:max-w-[200px] rounded-md mb-2"
+                  className="sm:max-w-[200px] rounded-md mb-2 select-none"
                 />
               )}
               {message.text && <p>{message.text}</p>}
